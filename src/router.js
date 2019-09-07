@@ -1,23 +1,56 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+
+// primary router
+import Index from 'pages/index/index'
+
+// secondary router
+import Home from 'pages/home/home'
+import Product from 'pages/product/product'
+import Discover from 'pages/discover/discover'
+import Profile from 'pages/profile/profile'
 
 Vue.use(Router)
+
+// router list
+// /
+// |-- Index
+// |---- Home
+// |---- Product
+// |---- Discover
+// |---- Profile
+// |-- Detail
+// |---- ID
+
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      redirect: '/index'
     },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+    { // Init page set into '/index/home'
+      path: '/index',
+      component: Index,
+      redirect: '/index/home',
+      children: [
+        {
+          path: 'home',
+          component: Home
+        },
+        {
+          path: 'product',
+          component: Product
+        },
+        {
+          path: 'discover',
+          component: Discover
+        },
+        {
+          path: 'profile',
+          component: Profile
+        },
+      ]
     }
   ]
 })
