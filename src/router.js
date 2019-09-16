@@ -3,6 +3,8 @@ import Router from 'vue-router'
 
 // primary router
 import Index from 'pages/index/index'
+import ProductDetail from 'pages/productDetail/detail'
+import More from 'pages/more/more'
 
 // secondary router
 import Home from 'pages/home/home'
@@ -21,6 +23,7 @@ Vue.use(Router)
 // |---- Profile
 // |-- Detail
 // |---- ID
+// |-- More`
 
 
 export default new Router({
@@ -51,6 +54,14 @@ export default new Router({
           component: Profile
         },
       ]
+    },
+    {
+      path: '/detail/:id',
+      component: ProductDetail
+    },
+    {
+      path: '/more',
+      component: More
     }
   ]
 })

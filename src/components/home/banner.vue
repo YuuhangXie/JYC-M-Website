@@ -19,8 +19,10 @@
     mounted() {
       // swiper settings
       this.mySwiper = new Swiper('.swiper-container', {
-        // init: false,
-        autoplay: true,
+        init: false,
+        autoplay: {
+          disableOnInteraction: false,
+        },
         loop: true,
         pagination: {
           el: '.swiper-pagination',
@@ -29,14 +31,14 @@
       })
     },
     props: ['banners'],
-    // watch: {
-    //   banners() {
-    //     // until images updated, swiper render init
-    //     this.$nextTick(function () {
-    //       this.mySwiper.init()
-    //     })
-    //   }
-    // }
+    watch: {
+      banners() {
+        // until images updated, swiper render init
+        this.$nextTick(function () {
+          this.mySwiper.init()
+        })
+      }
+    }
     }
 </script>
 

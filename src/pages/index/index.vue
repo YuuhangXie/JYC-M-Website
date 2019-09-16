@@ -43,6 +43,7 @@
     main
       flex 1
       background-color #fff
+      overflow-y scroll
     footer
       height 0.46rem
       padding-top 0.06rem

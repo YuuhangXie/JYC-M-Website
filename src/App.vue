@@ -4,6 +4,7 @@
 
 <script>
   import 'assets/styles/reset.css'
+  import 'assets/styles/iconfont.css'
   export default {
 
   }
