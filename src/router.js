@@ -5,6 +5,9 @@ import Router from 'vue-router'
 import Index from 'pages/index/index'
 import ProductDetail from 'pages/productDetail/detail'
 import More from 'pages/more/more'
+import Isregister from 'pages/login/isRegister'
+import Login from 'pages/login/login'
+import Register from 'pages/login/register'
 
 // secondary router
 import Home from 'pages/home/home'
@@ -62,6 +65,18 @@ export default new Router({
     {
       path: '/more',
       component: More
+    },
+    {
+      path: '/isregister',
+      component: Isregister
+    },
+    {
+      path: '/login',
+      component: Login
+    },
+    {
+      path: '/register',
+      component: Register
     }
   ]
 })
