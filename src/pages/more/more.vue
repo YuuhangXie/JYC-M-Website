@@ -15,7 +15,6 @@
     async beforeCreate() {
       let data = await api.get({ url: 'api/home/mediaList?pageNum=1&pageSize=100' })
       this.newsList = data.mediareportList
-      console.log(this.newsList)
     },
 
     data() {
