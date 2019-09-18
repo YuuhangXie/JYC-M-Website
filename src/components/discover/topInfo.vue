@@ -1,8 +1,8 @@
 <template>
   <div class="top-info">
-    <div class="top-user">
+    <div class="top-user" @click="handleLogin">
       <i></i>
-      <span>登录</span>
+      <span>{{this.$store.state.userInfo.isSignin ? this.$store.state.userInfo.phone : '登录'}}</span>
     </div>
     <div class="top-user-level">
       <div class="level-box-left">
@@ -19,7 +19,12 @@
 
 <script>
   export default {
-
+    methods: {
+      handleLogin() {
+        if(!this.$store.state.userInfo.isSignin)
+          this.$router.push('/isregister')
+      }
+    }
   }
 </script>
 

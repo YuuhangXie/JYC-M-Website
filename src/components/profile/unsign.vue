@@ -4,10 +4,21 @@
     <div class="unsign-a">
       <h1>注册就送<em>668红包</em></h1>
       <h3>银行监管 资金安全有保障</h3>
-      <button>注册/登录</button>
+      <button @click="login">{{this.$store.state.userInfo.isSignin ? '欢迎您' : '注册/登录'}}</button>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    login() {
+      if(!this.$store.state.userInfo.isSignin)
+        this.$router.push('/isregister')
+    }
+  }
+}
+</script>
 
 <style lang="stylus" scoped>
   .profile-top

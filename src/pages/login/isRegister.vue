@@ -42,7 +42,7 @@ export default {
       if(!this.isComplete) return false
       let result = await api.get({ url: `/api/user/mobileExist?userMobile=${this.phone}` })
       if(result.isRegister) {
-        this.$router.push('/login')
+        this.$router.push(`/login?phone=${this.phone}`)
       } else {
         this.$router.push(`/register?phone=${this.phone}`)
       }

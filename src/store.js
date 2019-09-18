@@ -10,9 +10,14 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-
+    saveUserInfo(state, info) {
+      state.userInfo.phone = info.phone
+      state.userInfo.isSignin = true
+    }
   },
   actions: {
-
+    verifyUser({ commit }, info) {
+      commit('saveUserInfo', info)
+    }
   }
 })

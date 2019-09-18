@@ -1,7 +1,7 @@
 <template>
   <div class="register">
     <div class="title">
-    <i class="iconfont icon-left"></i>
+    <i class="iconfont icon-left" @click="handleBack"></i>
       注册
     </div>
     <div class="info">
@@ -9,22 +9,20 @@
     </div>
     <div class="box">
       <div class="code">
-        <input type="text" placeholder="验证码">
-        <button>重新获取</button>
+        <input type="number" placeholder="验证码" v-model="codeInput">
+        <button @click="getCode" :disabled="codeComplete" :class="{recode: reSet}">{{this.timeSpace ? (this.timeSpace + 's后重发') : '重新获取'}}</button>
       </div>
       <div class="pwd">
-        <input type="password" placeholder="6~20位数字与字母组合" class="pwd">
-        <i data-v-ed76bb8e="" class="iconfont icon-shanchu" style="display: none;"></i>
-        <i data-v-ed76bb8e="" class="iconfont icon-kaiyan"></i>
+        <input :type="pwdType" placeholder="6~20位数字与字母组合" class="pwd" v-model="pwdInput">
+        <i :class="{iconfont: true, 'icon-shanchu': isDelete}" @click="handleDelete"></i>
+        <i :class="{'iconfont': true, 'icon-biyan': !showPwd, 'icon-kaiyan': showPwd}" @click="isShowPwd"></i>
       </div>
       <div class="invite">
-        <input type="text" placeholder="邀请人注册手机号(选填)">
+        <input type="number" placeholder="邀请人注册手机号(选填)">
       </div>
-      <button>注册</button>
-      <p data-v-ed76bb8e="" class="xieyi">
-        <i data-v-ed76bb8e="" class="iconfont icon-yuanhui active"></i>
-        我已阅读并同意
-        <a data-v-ed76bb8e="" href="/agreement/register" class="">《聚优财平台注册服务协议》</a>
+      <button :class="{active: submitActive}" @click="handleSubmit">注册</button>
+      <p class="xieyi">
+        <i class="iconfont icon-yuanhui active"></i>我已阅读并同意<a href="javascript:void(0)" class="">《聚优财平台注册服务协议》</a>
       </p>
     </div>
   </div>
@@ -36,7 +34,90 @@ export default {
     document.title = '注册'
   },
 
+  mounted() {
+    if(this.timeSpace === 0) {
+      this.reSet = true
+      this.timeSpace = 5
+      this.time = setInterval(() => {
+        if(this.timeSpace) {
+          this.timeSpace --
+          this.timeSpace === 0 ? this.reSet = false : ''
+        } else {
+          clearInterval(this.time)
+        }
+      }, 1000)
+    }
+  },
 
+  data() {
+    return {
+      timeSpace: 0,
+      codeComplete: false,
+      reSet: false,
+      pwdType: 'password',
+      pwdInput: '',
+      codeInput: '',
+      showPwd: false,
+      isDelete: false
+    }
+  },
+
+  computed: {
+    submitActive() {
+      if(this.pwdInput.length >= 6 && this.codeInput >= 4) {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
+
+  watch: {
+    pwdInput() {
+      if(this.pwdInput.length > 0) {
+        this.isDelete = true
+      } else {
+        this.isDelete = false
+      }
+    }
+  },
+
+  methods: {
+    handleBack() {
+      this.$router.go(-1)
+    },
+
+    handleDelete() {
+      this.pwdInput = ''
+      this.showPwd = false
+    },
+
+    getCode() {
+      if(this.timeSpace === 0) {
+        this.reSet = true
+        this.timeSpace = 5
+        this.time = setInterval(() => {
+          if(this.timeSpace) {
+            this.timeSpace --
+            this.timeSpace === 0 ? this.reSet = false : ''
+          } else {
+            clearInterval(this.time)
+          }
+        }, 1000)
+      }
+    },
+
+    handleSubmit() {
+      if(this.pwdInput.length >= 6 && this.codeInput >= 4)
+        this.$store.dispatch('verifyUser', {phone: this.$route.query.phone})
+        this.$router.go(-2)
+    },
+
+    isShowPwd() {
+      this.showPwd = !this.showPwd
+      this.pwdType = this.showPwd ? 'text' : 'password'
+    }
+  }
 }
 </script>
 
@@ -87,6 +168,9 @@ export default {
           font-size 3.733vw
           color #fff
           background #0af
+          &.recode
+            color #fff !important
+            background #ccc !important
       input 
         height 10.667vw
         line-height 10.667vw
@@ -95,4 +179,38 @@ export default {
         border 0
         border-bottom 1px solid #eaeef3
         margin-bottom 8vw
+        color #666
+      .pwd
+        position relative
+        i 
+          position absolute
+          right 0
+          top .06rem
+          color #cccccc
+          font-size .16rem
+        .icon-shanchu
+          right .28rem
+      button 
+        display block
+        width 100%
+        height .44rem
+        background #ccc
+        box-shadow 0 2.133vw 1.067vw hsla(0,0%,93%,.6)
+        border-radius 1.067vw
+        font-size 4.8vw
+        text-align center
+        color #fff
+        border 0
+        &.active
+          background linear-gradient(90deg,#0071ff,#0af) !important
+          box-shadow 0 2.133vw 1.067vw rgba(160,204,253,.6) !important
+      .xieyi
+        margin-top 4vw
+        color #999
+        font-size 3.733vw
+        text-align center
+        line-height 1em
+        padding 0
+        i.active 
+          color #0af
 </style>
